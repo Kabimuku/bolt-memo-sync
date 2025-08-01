@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ThemeProvider } from "next-themes";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
+import EnhancedAppSidebar from "@/components/EnhancedAppSidebar";
 import { NoteGrid } from "@/components/NoteGrid";
 import { NoteEditor } from "@/components/NoteEditor";
 import { AuthPage } from "@/components/AuthPage";
@@ -302,15 +302,20 @@ const Index = () => {
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
-          <AppSidebar
-            onViewChange={setCurrentView}
-            currentView={currentView}
-            showArchived={showArchived}
-            onToggleArchived={setShowArchived}
-            onCreateNote={handleCreateNote}
-            onSearchNotes={setNoteSearchQuery}
-            onSearchTags={setTagSearchQuery}
-          />
+        <EnhancedAppSidebar
+          onViewChange={setCurrentView}
+          currentView={currentView}
+          showArchived={showArchived}
+          onToggleArchived={() => setShowArchived(!showArchived)}
+          onCreateNote={handleCreateNote}
+          onSearchNotes={setNoteSearchQuery}
+          onSearchTags={setTagSearchQuery}
+          notes={filteredNotes}
+          folders={[]}
+          onNoteSelect={handleNoteSelect}
+          user={user}
+          onLogout={() => supabase.auth.signOut()}
+        />
           
           <main className="flex-1 flex flex-col">
             <header className="h-12 flex items-center justify-between border-b px-4">

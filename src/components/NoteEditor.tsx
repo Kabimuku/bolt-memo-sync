@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Save, Pin, Archive, Trash2, Calendar, Tag } from "lucide-react";
+import { ArrowLeft, Save, Pin, Archive, Trash2, Calendar, Tag, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import RichTextEditor from "./RichTextEditor";
+import { cn } from "@/lib/utils";
 
 interface Note {
   id: string;
@@ -133,85 +134,109 @@ export function NoteEditor({
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-background">
       {/* Header */}
-      <div className="border-b p-4">
-        <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between p-4 border-b bg-background sticky top-0 z-10">
+        <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" onClick={onBack}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            <ArrowLeft className="h-4 w-4" />
           </Button>
-          
-          <div className="flex items-center gap-2">
-            {hasChanges && (
-              <Badge variant="outline" className="text-xs">
-                Unsaved changes
-              </Badge>
-            )}
-            
-            <Button onClick={handleSave} size="sm">
-              <Save className="h-4 w-4 mr-2" />
-              Save
-            </Button>
-            
-            {note && (
-              <>
-                <Button variant="outline" size="sm" onClick={handlePin}>
-                  <Pin className={`h-4 w-4 mr-2 ${note.is_pinned ? 'text-primary' : ''}`} />
-                  {note.is_pinned ? 'Unpin' : 'Pin'}
-                </Button>
-                
-                <Button variant="outline" size="sm" onClick={handleArchive}>
-                  <Archive className="h-4 w-4 mr-2" />
-                  {note.is_archived ? 'Unarchive' : 'Archive'}
-                </Button>
-                
-                <Button variant="outline" size="sm" onClick={handleDelete}>
-                  <Trash2 className="h-4 w-4 mr-2" />
-                  Delete
-                </Button>
-              </>
-            )}
-          </div>
+          <span className="text-sm text-muted-foreground">
+            {isNew ? 'New Note' : 'Edit Note'}
+          </span>
+          {hasChanges && (
+            <Badge variant="secondary" className="text-xs sync-saving">
+              Unsaved changes
+            </Badge>
+          )}
         </div>
         
-        {/* Title Input */}
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={handleSave}
+            className="text-indigo-600 hover:bg-indigo-50"
+          >
+            <Save className="h-4 w-4 mr-1" />
+            Save
+          </Button>
+          
+          {note && (
+            <>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handlePin}
+                className={cn(
+                  "hover:bg-yellow-50",
+                  note.is_pinned ? 'text-yellow-400 bg-yellow-50' : 'text-muted-foreground'
+                )}
+              >
+                <Pin className={cn("h-4 w-4 mr-1", note.is_pinned && "fill-current")} />
+                {note.is_pinned ? 'Unpin' : 'Pin'}
+              </Button>
+              
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleArchive}
+                className="text-muted-foreground hover:bg-muted"
+              >
+                <Archive className="h-4 w-4 mr-1" />
+                {note.is_archived ? 'Unarchive' : 'Archive'}
+              </Button>
+              
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleDelete}
+                className="text-red-500 hover:bg-red-50"
+              >
+                <Trash2 className="h-4 w-4 mr-1" />
+                Delete
+              </Button>
+            </>
+          )}
+        </div>
+      </div>
+      
+      {/* Content */}
+      <div className="flex-1 flex flex-col p-6 space-y-6 overflow-auto">
         <Input
-          placeholder="Note title..."
+          placeholder="Untitled"
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
-          className="text-xl font-medium border-none px-0 focus-visible:ring-0"
+          className="text-3xl font-bold border-none p-0 focus-visible:ring-0 bg-transparent placeholder:text-muted-foreground"
         />
         
-        {/* Metadata */}
+        <div className="flex-1">
+          <RichTextEditor
+            content={content}
+            onChange={handleContentChange}
+            placeholder="Start writing your note..."
+          />
+        </div>
+        
         {note && (
-          <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1">
-              <Calendar className="h-3 w-3" />
-              Created: {formatDate(note.created_at)}
-            </span>
-            <span className="flex items-center gap-1">
-              <Calendar className="h-3 w-3" />
-              Modified: {formatDate(note.updated_at)}
-            </span>
-            {note.tag_ids.length > 0 && (
-              <span className="flex items-center gap-1">
-                <Tag className="h-3 w-3" />
-                {note.tag_ids.length} tags
-              </span>
+          <div className="flex items-center justify-between text-xs text-muted-foreground pt-4 border-t border-border">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-1">
+                <Clock className="h-3 w-3" />
+                <span>Created {formatDate(note.created_at)}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="h-3 w-3" />
+                <span>Modified {formatDate(note.updated_at)}</span>
+              </div>
+            </div>
+            {note.tag_ids && note.tag_ids.length > 0 && (
+              <Badge variant="outline" className="text-xs">
+                {note.tag_ids.length} tag{note.tag_ids.length !== 1 ? 's' : ''}
+              </Badge>
             )}
           </div>
         )}
-      </div>
-      
-      {/* Content Editor */}
-      <div className="flex-1 p-4">
-        <Textarea
-          placeholder="Start writing your note..."
-          value={content}
-          onChange={(e) => handleContentChange(e.target.value)}
-          className="h-full resize-none border-none focus-visible:ring-0 text-base"
-        />
       </div>
     </div>
   );
