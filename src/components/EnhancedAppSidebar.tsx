@@ -27,6 +27,7 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
   SidebarFooter,
+  SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
@@ -103,7 +104,6 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
   const collapsed = state === 'collapsed';
   const { theme, setTheme } = useTheme();
   const [noteSearchQuery, setNoteSearchQuery] = useState('');
-  const [tagSearchQuery, setTagSearchQuery] = useState('');
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
 
   const sensors = useSensors(
@@ -130,14 +130,16 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
     return { folderMap, rootNotes };
   }, [notes]);
 
-  const handleNoteSearch = (query: string) => {
+  const handleUnifiedSearch = (query: string) => {
     setNoteSearchQuery(query);
-    onSearchNotes(query);
-  };
-
-  const handleTagSearch = (query: string) => {
-    setTagSearchQuery(query);
-    onSearchTags(query);
+    
+    // Check if it's a tag search (starts with #)
+    if (query.startsWith('#')) {
+      const tagQuery = query.slice(1); // Remove the # symbol
+      onSearchTags(tagQuery);
+    } else {
+      onSearchNotes(query);
+    }
   };
 
   const toggleFolder = (folderId: string) => {
@@ -291,25 +293,15 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
           </Button>
         </div>
 
-        {/* Search Bars */}
-        <div className="px-4 space-y-3">
+        {/* Unified Smart Search */}
+        <div className="px-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search notes..."
+              placeholder="Search notes or #tags..."
               value={noteSearchQuery}
-              onChange={(e) => handleNoteSearch(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-          
-          <div className="relative">
-            <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search tags..."
-              value={tagSearchQuery}
-              onChange={(e) => handleTagSearch(e.target.value)}
-              className="pl-10"
+              onChange={(e) => handleUnifiedSearch(e.target.value)}
+              className="pl-10 bg-search-input"
             />
           </div>
         </div>
@@ -365,61 +357,67 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
 
       {/* Settings Footer */}
       <SidebarFooter className="border-t p-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="w-full justify-start h-10 px-3"
-            >
-              <Settings className="mr-2 h-4 w-4" />
-              <span className="flex-1 text-left">Settings</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-64">
-            {user ? (
-              <>
-                <div className="px-2 py-1.5 text-sm text-muted-foreground">
-                  <User className="inline mr-2 h-3 w-3" />
-                  {user.email}
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={onLogout} className="text-red-500">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Logout
-                </DropdownMenuItem>
-              </>
-            ) : (
-              <>
-                <DropdownMenuItem className="text-indigo-600">
-                  🔐 Login
-                </DropdownMenuItem>
-                <DropdownMenuItem className="text-emerald-500">
-                  🆕 Sign Up
-                </DropdownMenuItem>
-              </>
-            )}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={onExportNotes} className="text-indigo-600">
-              <Download className="mr-2 h-4 w-4" />
-              Export Notes
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={onImportNotes} className="text-emerald-500">
-              <Upload className="mr-2 h-4 w-4" />
-              Import Notes
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem 
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="justify-between"
-            >
-              <span className="flex items-center">
-                {theme === 'dark' ? <Sun className="mr-2 h-4 w-4" /> : <Moon className="mr-2 h-4 w-4" />}
-                Dark Mode
-              </span>
-              <Switch checked={theme === 'dark'} />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="flex-1 justify-start h-10 px-3"
+              >
+                <Settings className="mr-2 h-4 w-4" />
+                <span className="flex-1 text-left">Settings</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-64">
+              {user ? (
+                <>
+                  <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                    <User className="inline mr-2 h-3 w-3" />
+                    {user.email}
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={onLogout} className="text-red-500">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <>
+                  <DropdownMenuItem className="text-indigo-600">
+                    🔐 Login
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="text-emerald-500">
+                    🆕 Sign Up
+                  </DropdownMenuItem>
+                </>
+              )}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={onExportNotes} className="text-indigo-600">
+                <Download className="mr-2 h-4 w-4" />
+                Export Notes
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={onImportNotes} className="text-emerald-500">
+                <Upload className="mr-2 h-4 w-4" />
+                Import Notes
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem 
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="justify-between"
+              >
+                <span className="flex items-center">
+                  {theme === 'dark' ? <Sun className="mr-2 h-4 w-4" /> : <Moon className="mr-2 h-4 w-4" />}
+                  Dark Mode
+                </span>
+                <Switch checked={theme === 'dark'} />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          
+          <SidebarTrigger className="h-10 w-10 flex-shrink-0">
+            <X className="h-4 w-4" />
+          </SidebarTrigger>
+        </div>
       </SidebarFooter>
     </Sidebar>
   );
