@@ -1,49 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { 
-  Search, 
-  Home, 
-  Archive, 
-  Settings, 
-  Plus, 
-  Hash,
-  X,
-  User,
-  LogOut,
-  Upload,
-  Download,
-  Moon,
-  Sun
-} from 'lucide-react';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarGroupContent,
-  SidebarFooter,
-  SidebarTrigger,
-  useSidebar,
-} from '@/components/ui/sidebar';
+import { Search, Home, Archive, Settings, Plus, Hash, X, User, LogOut, Upload, Download, Moon, Sun } from 'lucide-react';
+import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarFooter, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from 'next-themes';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import TreeViewItem from './TreeViewItem';
 import { cn } from '@/lib/utils';
-
 interface Note {
   id: string;
   title: string;
@@ -54,7 +20,6 @@ interface Note {
   created_at?: string;
   updated_at?: string;
 }
-
 interface Folder {
   id: string;
   name: string;
@@ -62,7 +27,6 @@ interface Folder {
   color?: string;
   icon?: string;
 }
-
 interface EnhancedAppSidebarProps {
   currentView: string;
   onViewChange: (view: string) => void;
@@ -84,7 +48,6 @@ interface EnhancedAppSidebarProps {
   onExportNotes?: () => void;
   onImportNotes?: () => void;
 }
-
 const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
   currentView,
   onViewChange,
@@ -104,24 +67,24 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
   user,
   onLogout,
   onExportNotes,
-  onImportNotes,
+  onImportNotes
 }) => {
-  const { state } = useSidebar();
+  const {
+    state
+  } = useSidebar();
   const collapsed = state === 'collapsed';
-  const { theme, setTheme } = useTheme();
+  const {
+    theme,
+    setTheme
+  } = useTheme();
   const [noteSearchQuery, setNoteSearchQuery] = useState('');
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor)
-  );
+  const sensors = useSensors(useSensor(PointerSensor), useSensor(KeyboardSensor));
 
   // Group notes by folder
   const organizedNotes = useMemo(() => {
     const folderMap = new Map<string, Note[]>();
     const rootNotes: Note[] = [];
-
     notes.forEach(note => {
       if (note.folder_id) {
         if (!folderMap.has(note.folder_id)) {
@@ -132,13 +95,14 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
         rootNotes.push(note);
       }
     });
-
-    return { folderMap, rootNotes };
+    return {
+      folderMap,
+      rootNotes
+    };
   }, [notes]);
-
   const handleUnifiedSearch = (query: string) => {
     setNoteSearchQuery(query);
-    
+
     // Check if it's a tag search (starts with #)
     if (query.startsWith('#')) {
       const tagQuery = query.slice(1); // Remove the # symbol
@@ -147,7 +111,6 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
       onSearchNotes(query);
     }
   };
-
   const toggleFolder = (folderId: string) => {
     const newExpanded = new Set(expandedFolders);
     if (newExpanded.has(folderId)) {
@@ -157,10 +120,11 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
     }
     setExpandedFolders(newExpanded);
   };
-
   const handleDragEnd = (event: any) => {
-    const { active, over } = event;
-    
+    const {
+      active,
+      over
+    } = event;
     if (over && active.id !== over.id) {
       // Handle note moving to folder
       if (over.id.startsWith('folder-')) {
@@ -171,117 +135,52 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
       }
     }
   };
-
   const renderTreeView = () => {
     const allItems: string[] = [];
-    
+
     // Add root notes
     organizedNotes.rootNotes.forEach(note => allItems.push(note.id));
-    
+
     // Add folders and their notes
     folders.forEach(folder => {
       allItems.push(`folder-${folder.id}`);
       const folderNotes = organizedNotes.folderMap.get(folder.id) || [];
       folderNotes.forEach(note => allItems.push(note.id));
     });
-
-    return (
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
+    return <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={allItems} strategy={verticalListSortingStrategy}>
           <div className="space-y-1">
             {/* Root notes */}
-            {organizedNotes.rootNotes.map(note => (
-              <TreeViewItem
-                key={note.id}
-                id={note.id}
-                type="note"
-                title={note.title}
-                level={0}
-                isPinned={note.is_pinned}
-                isArchived={note.is_archived}
-                onSelect={() => onNoteSelect(note)}
-                onPin={() => onNotePin?.(note.id)}
-                onArchive={() => onNoteArchive?.(note.id)}
-                onDelete={() => onNoteDelete?.(note.id)}
-              />
-            ))}
+            {organizedNotes.rootNotes.map(note => <TreeViewItem key={note.id} id={note.id} type="note" title={note.title} level={0} isPinned={note.is_pinned} isArchived={note.is_archived} onSelect={() => onNoteSelect(note)} onPin={() => onNotePin?.(note.id)} onArchive={() => onNoteArchive?.(note.id)} onDelete={() => onNoteDelete?.(note.id)} />)}
 
             {/* Folders and their notes */}
             {folders.map(folder => {
-              const folderNotes = organizedNotes.folderMap.get(folder.id) || [];
-              const isExpanded = expandedFolders.has(folder.id);
-              
-              return (
-                <div key={folder.id}>
-                  <TreeViewItem
-                    id={`folder-${folder.id}`}
-                    type="folder"
-                    title={folder.name}
-                    level={0}
-                    isExpanded={isExpanded}
-                    hasChildren={folderNotes.length > 0}
-                    onToggle={() => toggleFolder(folder.id)}
-                  >
-                    {folderNotes.map(note => (
-                      <TreeViewItem
-                        key={note.id}
-                        id={note.id}
-                        type="note"
-                        title={note.title}
-                        level={1}
-                        isPinned={note.is_pinned}
-                        isArchived={note.is_archived}
-                        onSelect={() => onNoteSelect(note)}
-                        onPin={() => onNotePin?.(note.id)}
-                        onArchive={() => onNoteArchive?.(note.id)}
-                        onDelete={() => onNoteDelete?.(note.id)}
-                      />
-                    ))}
+            const folderNotes = organizedNotes.folderMap.get(folder.id) || [];
+            const isExpanded = expandedFolders.has(folder.id);
+            return <div key={folder.id}>
+                  <TreeViewItem id={`folder-${folder.id}`} type="folder" title={folder.name} level={0} isExpanded={isExpanded} hasChildren={folderNotes.length > 0} onToggle={() => toggleFolder(folder.id)}>
+                    {folderNotes.map(note => <TreeViewItem key={note.id} id={note.id} type="note" title={note.title} level={1} isPinned={note.is_pinned} isArchived={note.is_archived} onSelect={() => onNoteSelect(note)} onPin={() => onNotePin?.(note.id)} onArchive={() => onNoteArchive?.(note.id)} onDelete={() => onNoteDelete?.(note.id)} />)}
                   </TreeViewItem>
-                </div>
-              );
-            })}
+                </div>;
+          })}
           </div>
         </SortableContext>
-      </DndContext>
-    );
+      </DndContext>;
   };
-
   if (collapsed) {
-    return (
-      <Sidebar className="w-14">
+    return <Sidebar className="w-14">
         <SidebarContent className="flex flex-col items-center py-4 space-y-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => onViewChange('notes')}
-            className={cn(
-              "w-8 h-8 p-0",
-              currentView === 'notes' && "bg-indigo-100"
-            )}
-          >
+          <Button variant="ghost" size="sm" onClick={() => onViewChange('notes')} className={cn("w-8 h-8 p-0", currentView === 'notes' && "bg-indigo-100")}>
             <Home className="h-4 w-4" />
           </Button>
           
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onCreateNote}
-            className="w-8 h-8 p-0 bg-indigo-600 text-white hover:bg-indigo-700"
-          >
+          <Button variant="ghost" size="sm" onClick={onCreateNote} className="w-8 h-8 p-0 bg-indigo-600 text-white hover:bg-indigo-700">
             <Plus className="h-4 w-4" />
           </Button>
         </SidebarContent>
-      </Sidebar>
-    );
+      </Sidebar>;
   }
-
-  return (
-    <Sidebar className="w-64 bg-sidebar-bg">
+  return <Sidebar className="w-64 bg-sidebar-bg">
       <SidebarHeader className="border-b p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -296,10 +195,7 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
       <SidebarContent className="flex-1 overflow-auto">
         {/* New Note Button */}
         <div className="p-4">
-          <Button
-            onClick={onCreateNote}
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm"
-          >
+          <Button onClick={onCreateNote} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm">
             <Plus className="mr-2 h-4 w-4" />
             New Note
           </Button>
@@ -309,12 +205,7 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
         <div className="px-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search notes or #tags..."
-              value={noteSearchQuery}
-              onChange={(e) => handleUnifiedSearch(e.target.value)}
-              className="pl-10 bg-search-input"
-            />
+            <Input placeholder="Search notes or #tags..." value={noteSearchQuery} onChange={e => handleUnifiedSearch(e.target.value)} className="pl-10 bg-search-input rounded-sm" />
           </div>
         </div>
 
@@ -322,14 +213,7 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton
-                onClick={() => onViewChange('notes')}
-                isActive={currentView === 'notes'}
-                className={cn(
-                  "w-full justify-start",
-                  currentView === 'notes' && "bg-indigo-200 text-foreground font-medium"
-                )}
-              >
+              <SidebarMenuButton onClick={() => onViewChange('notes')} isActive={currentView === 'notes'} className={cn("w-full justify-start", currentView === 'notes' && "bg-indigo-200 text-foreground font-medium")}>
                 <Home className="mr-2 h-4 w-4" />
                 All Notes
               </SidebarMenuButton>
@@ -341,36 +225,20 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
         <div className="px-4 py-2">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium">Show Archived</span>
-            <Switch
-              checked={showArchived}
-              onCheckedChange={onToggleArchived}
-            />
+            <Switch checked={showArchived} onCheckedChange={onToggleArchived} />
           </div>
         </div>
 
         {/* Create Note/Folder Button */}
         <div className="px-4 pb-2">
-          <Button
-            onClick={onCreateNote}
-            variant="ghost"
-            size="sm"
-            className="w-full justify-start h-8 text-sm bg-primary/10 hover:bg-primary/20 text-primary"
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            Create New
-          </Button>
+          
         </div>
 
         {/* Folders & Notes Tree View */}
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center justify-between">
             <span>Folders</span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onCreateFolder}
-              className="h-6 w-6 p-0"
-            >
+            <Button variant="ghost" size="sm" onClick={onCreateFolder} className="h-6 w-6 p-0">
               <Plus className="h-3 w-3" />
             </Button>
           </SidebarGroupLabel>
@@ -385,17 +253,13 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="flex-1 justify-start h-10 px-3"
-              >
+              <Button variant="ghost" className="flex-1 justify-start h-10 px-3">
                 <Settings className="mr-2 h-4 w-4" />
                 <span className="flex-1 text-left">Settings</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
-              {user ? (
-                <>
+              {user ? <>
                   <div className="px-2 py-1.5 text-sm text-muted-foreground">
                     <User className="inline mr-2 h-3 w-3" />
                     {user.email}
@@ -405,17 +269,14 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
                     <LogOut className="mr-2 h-4 w-4" />
                     Logout
                   </DropdownMenuItem>
-                </>
-              ) : (
-                <>
+                </> : <>
                   <DropdownMenuItem className="text-indigo-600">
                     🔐 Login
                   </DropdownMenuItem>
                   <DropdownMenuItem className="text-emerald-500">
                     🆕 Sign Up
                   </DropdownMenuItem>
-                </>
-              )}
+                </>}
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={onExportNotes} className="text-indigo-600">
                 <Download className="mr-2 h-4 w-4" />
@@ -426,10 +287,7 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
                 Import Notes
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem 
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="justify-between"
-              >
+              <DropdownMenuItem onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="justify-between">
                 <span className="flex items-center">
                   {theme === 'dark' ? <Sun className="mr-2 h-4 w-4" /> : <Moon className="mr-2 h-4 w-4" />}
                   Dark Mode
@@ -444,8 +302,6 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
           </SidebarTrigger>
         </div>
       </SidebarFooter>
-    </Sidebar>
-  );
+    </Sidebar>;
 };
-
 export default EnhancedAppSidebar;
