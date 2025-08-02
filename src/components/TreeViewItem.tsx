@@ -157,7 +157,7 @@ const TreeViewItem: React.FC<TreeViewItemProps> = ({
                 <MoreHorizontal className="h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-32 bg-popover shadow-lg">
+            <DropdownMenuContent align="end" className="w-36 bg-white dark:bg-gray-800 border shadow-lg z-50">
               <DropdownMenuItem 
                 onClick={(e) => {
                   e.stopPropagation();
