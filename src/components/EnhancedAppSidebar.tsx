@@ -76,6 +76,9 @@ interface EnhancedAppSidebarProps {
   onNoteSelect: (note: Note) => void;
   onCreateFolder?: () => void;
   onMoveNote?: (noteId: string, folderId: string | null) => void;
+  onNotePin?: (noteId: string) => void;
+  onNoteArchive?: (noteId: string) => void;
+  onNoteDelete?: (noteId: string) => void;
   user?: any;
   onLogout?: () => void;
   onExportNotes?: () => void;
@@ -95,6 +98,9 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
   onNoteSelect,
   onCreateFolder,
   onMoveNote,
+  onNotePin,
+  onNoteArchive,
+  onNoteDelete,
   user,
   onLogout,
   onExportNotes,
@@ -198,6 +204,9 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
                 isPinned={note.is_pinned}
                 isArchived={note.is_archived}
                 onSelect={() => onNoteSelect(note)}
+                onPin={() => onNotePin?.(note.id)}
+                onArchive={() => onNoteArchive?.(note.id)}
+                onDelete={() => onNoteDelete?.(note.id)}
               />
             ))}
 
@@ -227,6 +236,9 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
                         isPinned={note.is_pinned}
                         isArchived={note.is_archived}
                         onSelect={() => onNoteSelect(note)}
+                        onPin={() => onNotePin?.(note.id)}
+                        onArchive={() => onNoteArchive?.(note.id)}
+                        onDelete={() => onNoteDelete?.(note.id)}
                       />
                     ))}
                   </TreeViewItem>
@@ -269,7 +281,7 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
   }
 
   return (
-    <Sidebar className="w-80">
+    <Sidebar className="w-64 bg-sidebar-bg">
       <SidebarHeader className="border-b p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -334,6 +346,19 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
               onCheckedChange={onToggleArchived}
             />
           </div>
+        </div>
+
+        {/* Create Note/Folder Button */}
+        <div className="px-4 pb-2">
+          <Button
+            onClick={onCreateNote}
+            variant="ghost"
+            size="sm"
+            className="w-full justify-start h-8 text-sm bg-primary/10 hover:bg-primary/20 text-primary"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Create New
+          </Button>
         </div>
 
         {/* Folders & Notes Tree View */}

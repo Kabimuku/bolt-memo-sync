@@ -113,6 +113,7 @@ const Index = () => {
           .insert({
             title: noteData.title || 'Untitled',
             content: noteData.content,
+            markdown: noteData.content, // Store as both for compatibility
             user_id: user.id,
             tag_ids: [],
           })
@@ -303,19 +304,22 @@ const Index = () => {
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
         <EnhancedAppSidebar
-          onViewChange={setCurrentView}
-          currentView={currentView}
-          showArchived={showArchived}
-          onToggleArchived={() => setShowArchived(!showArchived)}
-          onCreateNote={handleCreateNote}
-          onSearchNotes={setNoteSearchQuery}
-          onSearchTags={setTagSearchQuery}
-          notes={filteredNotes}
-          folders={[]}
-          onNoteSelect={handleNoteSelect}
-          user={user}
-          onLogout={() => supabase.auth.signOut()}
-        />
+           onViewChange={setCurrentView}
+           currentView={currentView}
+           showArchived={showArchived}
+           onToggleArchived={() => setShowArchived(!showArchived)}
+           onCreateNote={handleCreateNote}
+           onSearchNotes={setNoteSearchQuery}
+           onSearchTags={setTagSearchQuery}
+           notes={filteredNotes}
+           folders={[]}
+           onNoteSelect={handleNoteSelect}
+           onNotePin={handleNotePin}
+           onNoteArchive={handleNoteArchive}
+           onNoteDelete={handleNoteDelete}
+           user={user}
+           onLogout={() => supabase.auth.signOut()}
+         />
           
           <main className="flex-1 flex flex-col">
             <header className="h-12 flex items-center justify-between border-b px-4">

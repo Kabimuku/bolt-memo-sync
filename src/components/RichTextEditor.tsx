@@ -239,7 +239,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       {/* Editor */}
       <EditorContent 
         editor={editor} 
-        className="min-h-[200px] p-4 prose prose-sm max-w-none focus-within:outline-none"
+        className="min-h-[200px] p-4 prose prose-sm max-w-none focus-within:outline-none bg-popover text-popover-foreground rounded-lg border border-border"
         style={{ 
           fontFamily: 'inherit',
           fontSize: 'inherit',

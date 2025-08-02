@@ -8,29 +8,29 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Bolt-Memo enhanced color system */
+    /* Updated Bolt-Memo color system per user specifications */
     --background: 0 0% 100%;
-    --foreground: 214 31% 15%; /* #111827 - Gray 900 */
+    --foreground: 213 35% 17%; /* Updated to #2D3748 for better readability */
 
     --card: 0 0% 100%;
-    --card-foreground: 214 31% 15%;
+    --card-foreground: 213 35% 17%;
 
-    --popover: 220 20% 98%; /* #F9FAFB - Gray 50 */
+    --popover: 210 20% 98%; /* Updated to #F9FAFB for cleaner look */
     --popover-foreground: 215 25% 27%; /* #374151 - Gray 700 */
 
-    --primary: 239 84% 67%; /* #6366F1 - Indigo 500 */
+    --primary: 245 58% 51%; /* Updated to #6A5ACD (Slate Blue) */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 214 32% 91%; /* #E5E7EB - Gray 200 */
-    --secondary-foreground: 215 25% 27%;
+    --secondary-foreground: 213 35% 17%;
 
-    --muted: 220 14% 96%; /* #F3F4F6 - Gray 100 */
+    --muted: 210 20% 96%; /* Updated to #F3F4F6 - Gray 100 */
     --muted-foreground: 215 16% 47%; /* #6B7280 - Gray 500 */
 
-    --accent: 221 39% 11%; /* #1F2937 - Gray 800 */
-    --accent-foreground: 220 20% 98%;
+    --accent: 240 100% 95%; /* Updated to #E6E6FA (Lavender) for hover effects */
+    --accent-foreground: 213 35% 17%;
 
-    --destructive: 0 84% 60%; /* #EF4444 - Red 500 */
+    --destructive: 0 65% 65%; /* Updated to #E57373 for softer red */
     --destructive-foreground: 0 0% 100%;
 
     --success: 142 76% 36%; /* #10B981 - Emerald 500 */
@@ -39,9 +39,9 @@ All colors MUST be HSL.
     --warning: 38 92% 50%; /* #F59E0B - Amber 500 */
     --warning-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 220 14% 96%;
-    --ring: 239 84% 67%;
+    --border: 0 0% 83%; /* Updated to #D3D3D3 for soft gray borders */
+    --input: 210 20% 94%; /* Updated light gray for search inputs */
+    --ring: 245 58% 51%;
 
     --radius: 0.5rem;
 
@@ -63,42 +63,42 @@ All colors MUST be HSL.
     --red-100: 0 93% 94%; /* #FEE2E2 */
     --red-500: 0 84% 60%; /* #EF4444 */
 
-    /* Sidebar colors */
-    --sidebar-background: 220 20% 98%;
-    --sidebar-foreground: 215 25% 27%;
-    --sidebar-primary: 239 68% 56%;
+    /* Updated sidebar colors */
+    --sidebar-background: 210 20% 98%; /* Updated to #F9FAFB */
+    --sidebar-foreground: 213 35% 17%; /* Updated to #2D3748 */
+    --sidebar-primary: 245 58% 51%; /* Updated to #6A5ACD */
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 215 25% 27%;
-    --sidebar-border: 214 32% 91%;
-    --sidebar-ring: 239 84% 67%;
+    --sidebar-accent: 240 100% 95%; /* Updated to #E6E6FA (Lavender) */
+    --sidebar-accent-foreground: 213 35% 17%;
+    --sidebar-border: 0 0% 83%; /* Updated to #D3D3D3 */
+    --sidebar-ring: 245 58% 51%;
   }
 
   .dark {
-    /* Dark mode colors */
-    --background: 221 39% 11%; /* #1F2937 - Gray 800 */
-    --foreground: 220 20% 98%; /* #F9FAFB - Gray 50 */
+    /* Updated dark mode colors */
+    --background: 210 28% 15%; /* Updated to #1F2937 */
+    --foreground: 210 20% 98%; /* Updated to #F9FAFB */
 
-    --card: 221 39% 11%;
-    --card-foreground: 220 20% 98%;
+    --card: 210 28% 15%;
+    --card-foreground: 210 20% 98%;
 
-    --popover: 221 39% 11%;
-    --popover-foreground: 220 20% 98%;
+    --popover: 210 28% 15%;
+    --popover-foreground: 210 20% 98%;
 
-    --primary: 239 84% 67%; /* #6366F1 - Keep indigo */
+    --primary: 245 58% 51%; /* Keep consistent with light mode */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 215 28% 17%; /* #374151 - Gray 700 */
-    --secondary-foreground: 220 20% 98%;
+    --secondary-foreground: 210 20% 98%;
 
     --muted: 215 28% 17%;
     --muted-foreground: 0 0% 65%;
 
-    --accent: 215 28% 17%;
-    --accent-foreground: 220 20% 98%;
+    --accent: 245 58% 20%; /* Darker version for dark mode */
+    --accent-foreground: 210 20% 98%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 65% 65%; /* Updated to match light mode */
+    --destructive-foreground: 210 20% 98%;
 
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
@@ -108,7 +108,7 @@ All colors MUST be HSL.
 
     --border: 215 28% 17%;
     --input: 215 28% 17%;
-    --ring: 239 84% 67%;
+    --ring: 245 58% 51%;
 
     /* Enhanced dark mode colors */
     --indigo-600: 239 84% 67%;
@@ -128,15 +128,15 @@ All colors MUST be HSL.
     --red-100: 215 28% 17%;
     --red-500: 0 84% 60%;
 
-    /* Sidebar in dark mode */
-    --sidebar-background: 221 39% 11%;
-    --sidebar-foreground: 220 20% 98%;
-    --sidebar-primary: 239 84% 67%;
+    /* Updated sidebar in dark mode */
+    --sidebar-background: 210 28% 15%;
+    --sidebar-foreground: 210 20% 98%;
+    --sidebar-primary: 245 58% 51%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 28% 17%;
-    --sidebar-accent-foreground: 220 20% 98%;
+    --sidebar-accent: 245 58% 20%;
+    --sidebar-accent-foreground: 210 20% 98%;
     --sidebar-border: 215 28% 17%;
-    --sidebar-ring: 239 84% 67%;
+    --sidebar-ring: 245 58% 51%;
   }
 }
 
@@ -151,6 +151,23 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
+  /* Custom utilities for Bolt-Memo */
+  .bg-sidebar-bg {
+    background-color: hsl(var(--sidebar-background));
+  }
+
+  .bg-sidebar-accent {
+    background-color: hsl(var(--sidebar-accent));
+  }
+
+  .bg-search-input {
+    background-color: hsl(var(--input));
+  }
+
+  .text-sidebar-foreground {
+    color: hsl(var(--sidebar-foreground));
+  }
+
   /* Custom color utilities */
   .bg-indigo-600 { background-color: hsl(var(--indigo-600)); }
   .bg-indigo-100 { background-color: hsl(var(--indigo-100)); }

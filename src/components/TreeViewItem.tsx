@@ -157,17 +157,41 @@ const TreeViewItem: React.FC<TreeViewItemProps> = ({
                 <MoreHorizontal className="h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-32">
-              <DropdownMenuItem onClick={onRename}>
+            <DropdownMenuContent align="end" className="w-32 bg-popover shadow-lg">
+              <DropdownMenuItem 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRename?.();
+                }}
+                className="hover:bg-accent"
+              >
                 ✏️ Rename
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={onPin}>
+              <DropdownMenuItem 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onPin?.();
+                }}
+                className="hover:bg-accent"
+              >
                 📌 {isPinned ? 'Unpin' : 'Pin'}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={onArchive}>
+              <DropdownMenuItem 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onArchive?.();
+                }}
+                className="hover:bg-accent"
+              >
                 📦 {isArchived ? 'Unarchive' : 'Archive'}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={onDelete} className="text-red-500">
+              <DropdownMenuItem 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete?.();
+                }}
+                className="text-destructive hover:bg-accent"
+              >
                 🗑️ Delete
               </DropdownMenuItem>
             </DropdownMenuContent>

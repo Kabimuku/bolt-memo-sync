@@ -45,8 +45,10 @@ export function NoteEditor({
 
   useEffect(() => {
     if (note) {
-      setTitle(note.title);
-      setContent(note.content || note.markdown || "");
+      setTitle(note.title || "");
+      // Prioritize content over markdown for display
+      const noteContent = note.content || note.markdown || "";
+      setContent(noteContent);
       setHasChanges(false);
     } else if (isNew) {
       setTitle("");
@@ -78,6 +80,7 @@ export function NoteEditor({
     const noteData: Partial<Note> = {
       title: title.trim(),
       content: content,
+      markdown: content, // Store as both content and markdown for compatibility
       ...(note && { id: note.id })
     };
 
@@ -207,7 +210,7 @@ export function NoteEditor({
           placeholder="Untitled"
           value={title}
           onChange={(e) => handleTitleChange(e.target.value)}
-          className="text-3xl font-bold border-none p-0 focus-visible:ring-0 bg-transparent placeholder:text-muted-foreground"
+          className="text-3xl font-bold border-none p-0 focus-visible:ring-0 bg-transparent placeholder:text-muted-foreground text-foreground"
         />
         
         <div className="flex-1">
