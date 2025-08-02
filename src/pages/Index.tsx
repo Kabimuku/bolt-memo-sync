@@ -245,14 +245,7 @@ const Index = () => {
         <EnhancedAppSidebar onViewChange={setCurrentView} currentView={currentView} showArchived={showArchived} onToggleArchived={() => setShowArchived(!showArchived)} onCreateNote={handleCreateNote} onSearchNotes={setNoteSearchQuery} onSearchTags={setTagSearchQuery} notes={filteredNotes} folders={[]} onNoteSelect={handleNoteSelect} onNotePin={handleNotePin} onNoteArchive={handleNoteArchive} onNoteDelete={handleNoteDelete} user={user} onLogout={() => supabase.auth.signOut()} />
           
           <main className="flex-1 flex flex-col">
-            <header className="h-12 flex items-center justify-between border-b px-4 bg-white">
-              <SidebarTrigger className="h-8 w-8" />
-              
-              <div className="flex items-center gap-2">
-                
-                
-              </div>
-            </header>
+            
             
             <div className="flex-1">
               {renderMainContent()}
