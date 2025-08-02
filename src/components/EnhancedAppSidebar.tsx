@@ -296,8 +296,6 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          
-          <SidebarTrigger className="h-10 w-10 flex-shrink-0" />
         </div>
       </SidebarFooter>
     </Sidebar>;
