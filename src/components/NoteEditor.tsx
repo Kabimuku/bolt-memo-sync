@@ -77,8 +77,7 @@ export function NoteEditor({
     const noteData: Partial<Note> = {
       title: title.trim(),
       content: content,
-      markdown: content,
-      // Store as both content and markdown for compatibility
+      // Store HTML content in content field
       ...(note && {
         id: note.id
       })

@@ -94,6 +94,38 @@ const Index = () => {
     setIsNewNote(true);
     setCurrentView('editor');
   };
+
+  const handleCreateFolder = async () => {
+    if (!user) return;
+    
+    const folderName = window.prompt('Enter folder name:');
+    if (!folderName?.trim()) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('folders')
+        .insert({
+          name: folderName.trim(),
+          user_id: user.id
+        })
+        .select()
+        .single();
+        
+      if (error) throw error;
+      
+      toast({
+        title: "Success",
+        description: "Folder created successfully"
+      });
+    } catch (error) {
+      console.error('Error creating folder:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create folder",
+        variant: "destructive"
+      });
+    }
+  };
   const handleNoteSelect = (note: Note) => {
     console.log('Index: note selected', note);
     setSelectedNote(note);
@@ -110,8 +142,6 @@ const Index = () => {
         } = await supabase.from('notes').insert({
           title: noteData.title || 'Untitled',
           content: noteData.content,
-          markdown: noteData.content,
-          // Store as both for compatibility
           user_id: user.id,
           tag_ids: []
         }).select().single();
@@ -243,7 +273,7 @@ const Index = () => {
   return <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
-        <EnhancedAppSidebar onViewChange={setCurrentView} currentView={currentView} showArchived={showArchived} onToggleArchived={() => setShowArchived(!showArchived)} onCreateNote={handleCreateNote} onSearchNotes={setNoteSearchQuery} onSearchTags={setTagSearchQuery} notes={filteredNotes} folders={[]} onNoteSelect={handleNoteSelect} onNotePin={handleNotePin} onNoteArchive={handleNoteArchive} onNoteDelete={handleNoteDelete} user={user} onLogout={() => supabase.auth.signOut()} />
+        <EnhancedAppSidebar onViewChange={setCurrentView} currentView={currentView} showArchived={showArchived} onToggleArchived={() => setShowArchived(!showArchived)} onCreateNote={handleCreateNote} onCreateFolder={handleCreateFolder} onSearchNotes={setNoteSearchQuery} onSearchTags={setTagSearchQuery} notes={filteredNotes} folders={[]} onNoteSelect={handleNoteSelect} onNotePin={handleNotePin} onNoteArchive={handleNoteArchive} onNoteDelete={handleNoteDelete} user={user} onLogout={() => supabase.auth.signOut()} />
           
           <main className="flex-1 flex flex-col">
             

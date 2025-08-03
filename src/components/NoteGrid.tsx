@@ -38,7 +38,9 @@ export function NoteGrid({
   };
   const getPreview = (note: Note) => {
     const content = note.content || note.markdown || '';
-    return content.length > 100 ? content.substring(0, 100) + '...' : content;
+    // Strip HTML tags for preview
+    const textContent = content.replace(/<[^>]*>/g, '');
+    return textContent.length > 100 ? textContent.substring(0, 100) + '...' : textContent;
   };
   if (notes.length === 0) {
     return <div className="flex flex-col items-center justify-center h-full text-center p-8">
