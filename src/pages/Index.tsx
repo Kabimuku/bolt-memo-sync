@@ -126,6 +126,104 @@ const Index = () => {
       });
     }
   };
+
+  const handleExportNotes = async () => {
+    if (!user) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('notes')
+        .select('*')
+        .eq('user_id', user.id);
+        
+      if (error) throw error;
+      
+      const exportData = {
+        exported_at: new Date().toISOString(),
+        user_email: user.email,
+        notes: data
+      };
+      
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+        type: 'application/json'
+      });
+      
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `notes-export-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "Success",
+        description: "Notes exported successfully"
+      });
+    } catch (error) {
+      console.error('Error exporting notes:', error);
+      toast({
+        title: "Error",
+        description: "Failed to export notes",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleImportNotes = () => {
+    if (!user) return;
+    
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    
+    input.onchange = async (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      
+      try {
+        const text = await file.text();
+        const importData = JSON.parse(text);
+        
+        if (!importData.notes || !Array.isArray(importData.notes)) {
+          throw new Error('Invalid file format');
+        }
+        
+        const notesToImport = importData.notes.map((note: any) => ({
+          title: note.title || 'Imported Note',
+          content: note.content || note.markdown || '',
+          user_id: user.id,
+          tag_ids: note.tag_ids || [],
+          is_pinned: false,
+          is_archived: false
+        }));
+        
+        const { data, error } = await supabase
+          .from('notes')
+          .insert(notesToImport)
+          .select();
+          
+        if (error) throw error;
+        
+        setNotes(prev => [...data, ...prev]);
+        
+        toast({
+          title: "Success",
+          description: `Imported ${data.length} notes successfully`
+        });
+      } catch (error) {
+        console.error('Error importing notes:', error);
+        toast({
+          title: "Error",
+          description: "Failed to import notes. Please check the file format.",
+          variant: "destructive"
+        });
+      }
+    };
+    
+    input.click();
+  };
   const handleNoteSelect = (note: Note) => {
     console.log('Index: note selected', note);
     setSelectedNote(note);
@@ -273,7 +371,7 @@ const Index = () => {
   return <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
-        <EnhancedAppSidebar onViewChange={setCurrentView} currentView={currentView} showArchived={showArchived} onToggleArchived={() => setShowArchived(!showArchived)} onCreateNote={handleCreateNote} onCreateFolder={handleCreateFolder} onSearchNotes={setNoteSearchQuery} onSearchTags={setTagSearchQuery} notes={filteredNotes} folders={[]} onNoteSelect={handleNoteSelect} onNotePin={handleNotePin} onNoteArchive={handleNoteArchive} onNoteDelete={handleNoteDelete} user={user} onLogout={() => supabase.auth.signOut()} />
+        <EnhancedAppSidebar onViewChange={setCurrentView} currentView={currentView} showArchived={showArchived} onToggleArchived={() => setShowArchived(!showArchived)} onCreateNote={handleCreateNote} onCreateFolder={handleCreateFolder} onSearchNotes={setNoteSearchQuery} onSearchTags={setTagSearchQuery} notes={filteredNotes} folders={[]} onNoteSelect={handleNoteSelect} onNotePin={handleNotePin} onNoteArchive={handleNoteArchive} onNoteDelete={handleNoteDelete} user={user} onLogout={() => supabase.auth.signOut()} onExportNotes={handleExportNotes} onImportNotes={handleImportNotes} />
           
           <main className="flex-1 flex flex-col">
             
