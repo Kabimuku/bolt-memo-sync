@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { Search, Home, Archive, Settings, Plus, Hash, X, User, LogOut, Upload, Download, Moon, Sun } from 'lucide-react';
+import { Search, Home, Archive, Settings, Plus, Hash, X, User, LogOut, Upload, Download, Moon, Sun, File, Folder } from 'lucide-react';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarFooter, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -236,9 +236,23 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
         <SidebarGroup>
           <SidebarGroupLabel className="flex items-center justify-between">
             <span>Folders</span>
-            <Button variant="ghost" size="sm" onClick={onCreateFolder} className="h-6 w-6 p-0">
-              <Plus className="h-3 w-3" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                  <Plus className="h-3 w-3" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={onCreateNote}>
+                  <File className="mr-2 h-4 w-4" />
+                  New File
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={onCreateFolder}>
+                  <Folder className="mr-2 h-4 w-4" />
+                  New Folder
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </SidebarGroupLabel>
           <SidebarGroupContent>
             {renderTreeView()}
