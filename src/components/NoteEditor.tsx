@@ -42,13 +42,16 @@ export function NoteEditor({
     toast
   } = useToast();
   useEffect(() => {
+    console.log('NoteEditor: note changed', { note, isNew });
     if (note) {
       setTitle(note.title || "");
       // Prioritize content over markdown for display
       const noteContent = note.content || note.markdown || "";
+      console.log('NoteEditor: setting content', { content: note.content, markdown: note.markdown, noteContent });
       setContent(noteContent);
       setHasChanges(false);
     } else if (isNew) {
+      console.log('NoteEditor: new note');
       setTitle("");
       setContent("");
       setHasChanges(false);

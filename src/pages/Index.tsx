@@ -95,6 +95,7 @@ const Index = () => {
     setCurrentView('editor');
   };
   const handleNoteSelect = (note: Note) => {
+    console.log('Index: note selected', note);
     setSelectedNote(note);
     setIsNewNote(false);
     setCurrentView('editor');

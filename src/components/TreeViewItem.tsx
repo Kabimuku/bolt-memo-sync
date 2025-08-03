@@ -87,14 +87,18 @@ const TreeViewItem: React.FC<TreeViewItemProps> = ({
     >
       <div
         className={cn(
-          'flex items-center gap-1 px-2 py-1 rounded-md cursor-pointer select-none hover:bg-sidebar-accent',
+          'flex items-center gap-1 px-2 py-1 rounded-md cursor-pointer select-none hover:bg-sidebar-accent transition-colors',
           isActive && 'bg-indigo-100 text-foreground font-medium',
           isArchived && 'opacity-60'
         )}
         style={{ paddingLeft: `${8 + indent}px` }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={onSelect}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          onSelect?.();
+        }}
         {...listeners}
       >
         {/* Expand/Collapse chevron */}
