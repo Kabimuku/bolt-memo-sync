@@ -32,6 +32,19 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       onChange(editor.getHTML());
     }
   });
+
+  // Update editor content when content prop changes
+  React.useEffect(() => {
+    if (editor) {
+      const currentContent = editor.getHTML();
+      // Only update if content is different and not just empty tags
+      if (content !== currentContent && content.trim() !== '' && content !== '<p></p>') {
+        editor.commands.setContent(content);
+      } else if (content === '' || content === '<p></p>') {
+        editor.commands.clearContent();
+      }
+    }
+  }, [content, editor]);
   if (!editor) {
     return null;
   }

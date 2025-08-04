@@ -79,11 +79,11 @@ const TreeViewItem: React.FC<TreeViewItemProps> = ({
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      className={cn(
-        'relative',
-        isDragging && 'drag-preview'
-      )}
+        {...(type === 'folder' ? attributes : {})}
+        className={cn(
+          'relative',
+          isDragging && 'drag-preview'
+        )}
     >
       <div
         className={cn(
@@ -97,9 +97,10 @@ const TreeViewItem: React.FC<TreeViewItemProps> = ({
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          onSelect?.();
+          if (type === 'note') {
+            onSelect?.();
+          }
         }}
-        {...listeners}
       >
         {/* Expand/Collapse chevron */}
         {type === 'folder' && hasChildren && (
