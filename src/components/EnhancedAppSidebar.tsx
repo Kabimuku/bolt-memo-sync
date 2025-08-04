@@ -171,44 +171,49 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
         </SortableContext>
       </DndContext>;
   };
-  if (collapsed || !isSidebarOpen) {
+  // Handle complete hide/show instead of just collapse
+  if (!isSidebarOpen) {
     return (
       <>
-        <Sidebar className="w-14">
-          <SidebarContent className="flex flex-col items-center py-4 space-y-4">
-            <Button variant="ghost" size="sm" onClick={() => onViewChange('notes')} className={cn("w-8 h-8 p-0", currentView === 'notes' && "bg-indigo-100")}>
-              <Home className="h-4 w-4" />
-            </Button>
-            
-            <Button variant="ghost" size="sm" onClick={onCreateNote} className="w-8 h-8 p-0 bg-indigo-600 text-white hover:bg-indigo-700">
-              <Plus className="h-4 w-4" />
-            </Button>
-          </SidebarContent>
-        </Sidebar>
-        
-        {/* Floating toggle button when sidebar is closed */}
-        {!isSidebarOpen && onToggleSidebar && (
-          <Button
-            onClick={onToggleSidebar}
-            variant="ghost"
-            size="sm"
-            className="fixed bottom-4 left-4 z-50 w-10 h-10 p-0 bg-sidebar-bg border border-border shadow-md hover:bg-accent transition-all duration-300"
-          >
-            <PanelLeftOpen className="h-4 w-4" />
-          </Button>
-        )}
+        {/* Floating toggle button when sidebar is completely hidden */}
+        <Button
+          onClick={onToggleSidebar}
+          variant="ghost"
+          size="sm"
+          className="fixed bottom-4 left-4 z-50 w-10 h-10 p-0 bg-sidebar-bg border border-border shadow-lg hover:bg-accent transition-all duration-300 rounded-md"
+        >
+          <PanelLeftOpen className="h-4 w-4" />
+        </Button>
       </>
     );
   }
-  return <Sidebar className="w-64 bg-sidebar-bg">
-      <SidebarHeader className="border-b p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <img src="/lovable-uploads/d51c0339-0774-4edf-9fc1-f79678ab9aaf.png" alt="Bolt-Memo Logo" className="w-8 h-8 rounded-lg" />
-            <span className="font-semibold">Bolt-Memo</span>
+
+  if (collapsed) {
+    return (
+      <Sidebar className="w-14">
+        <SidebarContent className="flex flex-col items-center py-4 space-y-4">
+          <Button variant="ghost" size="sm" onClick={() => onViewChange('notes')} className={cn("w-8 h-8 p-0", currentView === 'notes' && "bg-indigo-100")}>
+            <Home className="h-4 w-4" />
+          </Button>
+          
+          <Button variant="ghost" size="sm" onClick={onCreateNote} className="w-8 h-8 p-0 bg-indigo-600 text-white hover:bg-indigo-700">
+            <Plus className="h-4 w-4" />
+          </Button>
+        </SidebarContent>
+      </Sidebar>
+    );
+  }
+  return (
+    <div className="transition-all duration-300 ease-in-out">
+      <Sidebar className="w-64 bg-sidebar-bg">
+        <SidebarHeader className="border-b p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <img src="/lovable-uploads/d51c0339-0774-4edf-9fc1-f79678ab9aaf.png" alt="Bolt-Memo Logo" className="w-8 h-8 rounded-lg" />
+              <span className="font-semibold">Bolt-Memo</span>
+            </div>
           </div>
-        </div>
-      </SidebarHeader>
+        </SidebarHeader>
 
       <SidebarContent className="flex-1 overflow-auto">
         {/* New Note Button */}
@@ -342,6 +347,8 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
           )}
         </div>
       </SidebarFooter>
-    </Sidebar>;
+    </Sidebar>
+  </div>
+  );
 };
 export default EnhancedAppSidebar;

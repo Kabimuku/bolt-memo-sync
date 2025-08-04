@@ -381,31 +381,62 @@ const Index = () => {
   return <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
-        <EnhancedAppSidebar 
-          onViewChange={setCurrentView} 
-          currentView={currentView} 
-          showArchived={showArchived} 
-          onToggleArchived={() => setShowArchived(!showArchived)} 
-          onCreateNote={handleCreateNote} 
-          onCreateFolder={handleCreateFolder} 
-          onSearchNotes={setNoteSearchQuery} 
-          onSearchTags={setTagSearchQuery} 
-          notes={filteredNotes} 
-          folders={[]} 
-          onNoteSelect={handleNoteSelect} 
-          onNotePin={handleNotePin} 
-          onNoteArchive={handleNoteArchive} 
-          onNoteDelete={handleNoteDelete} 
-          user={user} 
-          onLogout={() => supabase.auth.signOut()} 
-          onExportNotes={handleExportNotes} 
-          onImportNotes={handleImportNotes}
-          isSidebarOpen={isSidebarOpen}
-          onToggleSidebar={handleToggleSidebar}
-        />
+          {/* Conditionally render sidebar */}
+          {isSidebarOpen && (
+            <EnhancedAppSidebar 
+              onViewChange={setCurrentView} 
+              currentView={currentView} 
+              showArchived={showArchived} 
+              onToggleArchived={() => setShowArchived(!showArchived)} 
+              onCreateNote={handleCreateNote} 
+              onCreateFolder={handleCreateFolder} 
+              onSearchNotes={setNoteSearchQuery} 
+              onSearchTags={setTagSearchQuery} 
+              notes={filteredNotes} 
+              folders={[]} 
+              onNoteSelect={handleNoteSelect} 
+              onNotePin={handleNotePin} 
+              onNoteArchive={handleNoteArchive} 
+              onNoteDelete={handleNoteDelete} 
+              user={user} 
+              onLogout={() => supabase.auth.signOut()} 
+              onExportNotes={handleExportNotes} 
+              onImportNotes={handleImportNotes}
+              isSidebarOpen={isSidebarOpen}
+              onToggleSidebar={handleToggleSidebar}
+            />
+          )}
           
-          <main className={`flex-1 flex flex-col transition-all duration-300 ${!isSidebarOpen ? 'ml-0' : ''}`}>
-            <div className="flex-1">
+          {/* Floating toggle button when sidebar is hidden */}
+          {!isSidebarOpen && (
+            <EnhancedAppSidebar 
+              onViewChange={setCurrentView} 
+              currentView={currentView} 
+              showArchived={showArchived} 
+              onToggleArchived={() => setShowArchived(!showArchived)} 
+              onCreateNote={handleCreateNote} 
+              onCreateFolder={handleCreateFolder} 
+              onSearchNotes={setNoteSearchQuery} 
+              onSearchTags={setTagSearchQuery} 
+              notes={filteredNotes} 
+              folders={[]} 
+              onNoteSelect={handleNoteSelect} 
+              onNotePin={handleNotePin} 
+              onNoteArchive={handleNoteArchive} 
+              onNoteDelete={handleNoteDelete} 
+              user={user} 
+              onLogout={() => supabase.auth.signOut()} 
+              onExportNotes={handleExportNotes} 
+              onImportNotes={handleImportNotes}
+              isSidebarOpen={isSidebarOpen}
+              onToggleSidebar={handleToggleSidebar}
+            />
+          )}
+          
+          <main className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
+            isSidebarOpen ? 'ml-0' : 'ml-0 w-full'
+          }`}>
+            <div className="flex-1 w-full">
               {renderMainContent()}
             </div>
           </main>
