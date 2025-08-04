@@ -36,6 +36,10 @@ const Index = () => {
   const [showArchived, setShowArchived] = useState(false);
   const [noteSearchQuery, setNoteSearchQuery] = useState("");
   const [tagSearchQuery, setTagSearchQuery] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    const saved = localStorage.getItem('sidebarOpen');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
   const {
     toast
   } = useToast();
@@ -343,6 +347,12 @@ const Index = () => {
     setIsNewNote(false);
     setCurrentView('all-notes');
   };
+
+  const handleToggleSidebar = () => {
+    const newState = !isSidebarOpen;
+    setIsSidebarOpen(newState);
+    localStorage.setItem('sidebarOpen', JSON.stringify(newState));
+  };
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -371,11 +381,30 @@ const Index = () => {
   return <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
-        <EnhancedAppSidebar onViewChange={setCurrentView} currentView={currentView} showArchived={showArchived} onToggleArchived={() => setShowArchived(!showArchived)} onCreateNote={handleCreateNote} onCreateFolder={handleCreateFolder} onSearchNotes={setNoteSearchQuery} onSearchTags={setTagSearchQuery} notes={filteredNotes} folders={[]} onNoteSelect={handleNoteSelect} onNotePin={handleNotePin} onNoteArchive={handleNoteArchive} onNoteDelete={handleNoteDelete} user={user} onLogout={() => supabase.auth.signOut()} onExportNotes={handleExportNotes} onImportNotes={handleImportNotes} />
+        <EnhancedAppSidebar 
+          onViewChange={setCurrentView} 
+          currentView={currentView} 
+          showArchived={showArchived} 
+          onToggleArchived={() => setShowArchived(!showArchived)} 
+          onCreateNote={handleCreateNote} 
+          onCreateFolder={handleCreateFolder} 
+          onSearchNotes={setNoteSearchQuery} 
+          onSearchTags={setTagSearchQuery} 
+          notes={filteredNotes} 
+          folders={[]} 
+          onNoteSelect={handleNoteSelect} 
+          onNotePin={handleNotePin} 
+          onNoteArchive={handleNoteArchive} 
+          onNoteDelete={handleNoteDelete} 
+          user={user} 
+          onLogout={() => supabase.auth.signOut()} 
+          onExportNotes={handleExportNotes} 
+          onImportNotes={handleImportNotes}
+          isSidebarOpen={isSidebarOpen}
+          onToggleSidebar={handleToggleSidebar}
+        />
           
-          <main className="flex-1 flex flex-col">
-            
-            
+          <main className={`flex-1 flex flex-col transition-all duration-300 ${!isSidebarOpen ? 'ml-0' : ''}`}>
             <div className="flex-1">
               {renderMainContent()}
             </div>

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { Search, Home, Archive, Settings, Plus, Hash, X, User, LogOut, Upload, Download, Moon, Sun, File, Folder } from 'lucide-react';
+import { Search, Home, Archive, Settings, Plus, Hash, X, User, LogOut, Upload, Download, Moon, Sun, File, Folder, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarFooter, SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -47,6 +47,8 @@ interface EnhancedAppSidebarProps {
   onLogout?: () => void;
   onExportNotes?: () => void;
   onImportNotes?: () => void;
+  isSidebarOpen?: boolean;
+  onToggleSidebar?: () => void;
 }
 const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
   currentView,
@@ -67,7 +69,9 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
   user,
   onLogout,
   onExportNotes,
-  onImportNotes
+  onImportNotes,
+  isSidebarOpen = true,
+  onToggleSidebar
 }) => {
   const {
     state
@@ -167,18 +171,34 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
         </SortableContext>
       </DndContext>;
   };
-  if (collapsed) {
-    return <Sidebar className="w-14">
-        <SidebarContent className="flex flex-col items-center py-4 space-y-4">
-          <Button variant="ghost" size="sm" onClick={() => onViewChange('notes')} className={cn("w-8 h-8 p-0", currentView === 'notes' && "bg-indigo-100")}>
-            <Home className="h-4 w-4" />
+  if (collapsed || !isSidebarOpen) {
+    return (
+      <>
+        <Sidebar className="w-14">
+          <SidebarContent className="flex flex-col items-center py-4 space-y-4">
+            <Button variant="ghost" size="sm" onClick={() => onViewChange('notes')} className={cn("w-8 h-8 p-0", currentView === 'notes' && "bg-indigo-100")}>
+              <Home className="h-4 w-4" />
+            </Button>
+            
+            <Button variant="ghost" size="sm" onClick={onCreateNote} className="w-8 h-8 p-0 bg-indigo-600 text-white hover:bg-indigo-700">
+              <Plus className="h-4 w-4" />
+            </Button>
+          </SidebarContent>
+        </Sidebar>
+        
+        {/* Floating toggle button when sidebar is closed */}
+        {!isSidebarOpen && onToggleSidebar && (
+          <Button
+            onClick={onToggleSidebar}
+            variant="ghost"
+            size="sm"
+            className="fixed bottom-4 left-4 z-50 w-10 h-10 p-0 bg-sidebar-bg border border-border shadow-md hover:bg-accent transition-all duration-300"
+          >
+            <PanelLeftOpen className="h-4 w-4" />
           </Button>
-          
-          <Button variant="ghost" size="sm" onClick={onCreateNote} className="w-8 h-8 p-0 bg-indigo-600 text-white hover:bg-indigo-700">
-            <Plus className="h-4 w-4" />
-          </Button>
-        </SidebarContent>
-      </Sidebar>;
+        )}
+      </>
+    );
   }
   return <Sidebar className="w-64 bg-sidebar-bg">
       <SidebarHeader className="border-b p-4">
@@ -308,6 +328,18 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          
+          {/* Sidebar Toggle Button */}
+          {onToggleSidebar && (
+            <Button
+              onClick={onToggleSidebar}
+              variant="ghost"
+              size="sm"
+              className="w-10 h-10 p-0 bg-sidebar-accent border border-border hover:bg-accent transition-all duration-300"
+            >
+              <PanelLeftClose className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </SidebarFooter>
     </Sidebar>;
