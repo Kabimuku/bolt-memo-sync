@@ -315,16 +315,16 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
                   </DropdownMenuItem>
                 </>}
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onExportNotes} className="text-indigo-600">
+              <DropdownMenuItem onClick={onExportNotes} className="text-purple-600 rounded-lg">
                 <Download className="mr-2 h-4 w-4" />
                 Export Notes
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={onImportNotes} className="text-emerald-500">
+              <DropdownMenuItem onClick={onImportNotes} className="text-emerald-500 rounded-lg">
                 <Upload className="mr-2 h-4 w-4" />
                 Import Notes
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="justify-between">
+              <DropdownMenuItem onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="justify-between rounded-lg">
                 <span className="flex items-center">
                   {theme === 'dark' ? <Sun className="mr-2 h-4 w-4" /> : <Moon className="mr-2 h-4 w-4" />}
                   Dark Mode
@@ -340,9 +340,9 @@ const EnhancedAppSidebar: React.FC<EnhancedAppSidebarProps> = ({
               onClick={onToggleSidebar}
               variant="ghost"
               size="sm"
-              className="w-10 h-10 p-0 bg-sidebar-accent border border-border hover:bg-accent transition-all duration-300"
+              className="w-12 h-12 p-0 glass-card hover:bg-white/90 border-0 hover-glow transition-all duration-300 rounded-xl"
             >
-              <PanelLeftClose className="h-4 w-4" />
+              <PanelLeftClose className="h-5 w-5 text-purple-500" />
             </Button>
           )}
         </div>

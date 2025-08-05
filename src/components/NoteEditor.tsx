@@ -128,40 +128,40 @@ export function NoteEditor({
       minute: '2-digit'
     });
   };
-  return <div className="flex flex-col h-full bg-background">
+  return <div className="flex flex-col h-full bg-gradient-surface">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b bg-background sticky top-0 z-10">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={onBack}>
+      <div className="flex items-center justify-between p-6 border-b border-border/50 glass sticky top-0 z-10">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={onBack} className="rounded-xl hover:bg-purple-50">
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm font-medium text-muted-foreground">
             {isNew ? 'New Note' : 'Edit Note'}
           </span>
-          {hasChanges && <Badge variant="secondary" className="text-xs sync-saving">
+          {hasChanges && <Badge variant="secondary" className="text-xs sync-saving bg-amber-50 text-amber-500 rounded-full">
               Unsaved changes
             </Badge>}
         </div>
         
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={handleSave} className="text-indigo-600 hover:bg-indigo-50">
-            <Save className="h-4 w-4 mr-1" />
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={handleSave} className="btn-gradient rounded-xl px-4">
+            <Save className="h-4 w-4 mr-2" />
             Save
           </Button>
           
           {note && <>
-              <Button variant="ghost" size="sm" onClick={handlePin} className={cn("hover:bg-yellow-50", note.is_pinned ? 'text-yellow-400 bg-yellow-50' : 'text-muted-foreground')}>
-                <Pin className={cn("h-4 w-4 mr-1", note.is_pinned && "fill-current")} />
+              <Button variant="ghost" size="sm" onClick={handlePin} className={cn("rounded-xl hover:bg-yellow-50", note.is_pinned ? 'text-yellow-400 bg-yellow-50' : 'text-muted-foreground')}>
+                <Pin className={cn("h-4 w-4 mr-2", note.is_pinned && "fill-current")} />
                 {note.is_pinned ? 'Unpin' : 'Pin'}
               </Button>
               
-              <Button variant="ghost" size="sm" onClick={handleArchive} className="text-muted-foreground hover:bg-muted">
-                <Archive className="h-4 w-4 mr-1" />
+              <Button variant="ghost" size="sm" onClick={handleArchive} className="text-muted-foreground hover:bg-purple-50 rounded-xl">
+                <Archive className="h-4 w-4 mr-2" />
                 {note.is_archived ? 'Unarchive' : 'Archive'}
               </Button>
               
-              <Button variant="ghost" size="sm" onClick={handleDelete} className="text-red-500 hover:bg-red-50">
-                <Trash2 className="h-4 w-4 mr-1" />
+              <Button variant="ghost" size="sm" onClick={handleDelete} className="text-rose-500 hover:bg-rose-50 rounded-xl">
+                <Trash2 className="h-4 w-4 mr-2" />
                 Delete
               </Button>
             </>}
@@ -169,25 +169,34 @@ export function NoteEditor({
       </div>
       
       {/* Content */}
-      <div className="flex-1 flex flex-col p-6 space-y-6 overflow-auto">
-        <Input placeholder="Untitled" value={title} onChange={e => handleTitleChange(e.target.value)} className="text-3xl font-bold border-none p-0 focus-visible:ring-0 placeholder:text-muted-foreground text-foreground bg-gray-700" />
+      <div className="flex-1 flex flex-col p-8 space-y-8 overflow-auto">
+        <Input 
+          placeholder="Untitled" 
+          value={title} 
+          onChange={e => handleTitleChange(e.target.value)} 
+          className="text-4xl font-bold border-none p-0 focus-visible:ring-0 placeholder:text-muted-foreground text-foreground bg-transparent rounded-none shadow-none" 
+        />
         
-        <div className="flex-1">
-          <RichTextEditor content={content} onChange={handleContentChange} placeholder="Start writing your note..." />
+        <div className="flex-1 glass-card p-6 rounded-2xl">
+          <RichTextEditor 
+            content={content} 
+            onChange={handleContentChange} 
+            placeholder="Start writing your note..." 
+          />
         </div>
         
-        {note && <div className="flex items-center justify-between text-xs text-muted-foreground pt-4 border-t border-border">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1">
-                <Clock className="h-3 w-3" />
+        {note && <div className="flex items-center justify-between text-sm text-muted-foreground pt-6 mt-6 border-t border-border/50">
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4" />
                 <span>Created {formatDate(note.created_at)}</span>
               </div>
-              <div className="flex items-center gap-1">
-                <Clock className="h-3 w-3" />
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4" />
                 <span>Modified {formatDate(note.updated_at)}</span>
               </div>
             </div>
-            {note.tag_ids && note.tag_ids.length > 0 && <Badge variant="outline" className="text-xs">
+            {note.tag_ids && note.tag_ids.length > 0 && <Badge variant="outline" className="text-sm bg-blue-50 text-blue-600 border-blue-200 rounded-full">
                 {note.tag_ids.length} tag{note.tag_ids.length !== 1 ? 's' : ''}
               </Badge>}
           </div>}

@@ -51,36 +51,36 @@ export function NoteGrid({
         </div>
       </div>;
   }
-  return <div className="p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {notes.map(note => <Card key={note.id} className="cursor-pointer hover:shadow-md transition-shadow relative group" onClick={() => onNoteSelect(note)}>
-            <CardHeader className="pb-2">
+  return <div className="p-6 bg-gradient-surface min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {notes.map(note => <Card key={note.id} className="cursor-pointer hover-lift hover-glow glass-card transition-all duration-300 relative group border-0" onClick={() => onNoteSelect(note)}>
+            <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
-                <div className="flex items-center gap-2 flex-1 min-w-0 bg-slate-100">
-                  {note.is_pinned && <Pin className="h-4 w-4 text-primary flex-shrink-0" />}
-                  <h3 className="font-medium text-sm truncate text-slate-800">{note.title}</h3>
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  {note.is_pinned && <Pin className="h-4 w-4 text-yellow-400 flex-shrink-0 fill-current" />}
+                  <h3 className="font-semibold text-sm truncate text-foreground">{note.title}</h3>
                 </div>
                 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
-                      <MoreVertical className="h-3 w-3" />
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-lg hover:bg-purple-50" onClick={e => e.stopPropagation()}>
+                      <MoreVertical className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
+                  <DropdownMenuContent align="end" className="glass-card">
                     <DropdownMenuItem onClick={e => {
                   e.stopPropagation();
                   onNotePin(note.id);
-                }}>
+                }} className="rounded-lg">
                       {note.is_pinned ? 'Unpin' : 'Pin'} Note
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={e => {
                   e.stopPropagation();
                   onNoteArchive(note.id);
-                }}>
+                }} className="rounded-lg">
                       {note.is_archived ? 'Unarchive' : 'Archive'} Note
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="text-destructive" onClick={e => {
+                    <DropdownMenuItem className="text-rose-500 rounded-lg" onClick={e => {
                   e.stopPropagation();
                   onNoteDelete(note.id);
                 }}>
@@ -91,8 +91,8 @@ export function NoteGrid({
               </div>
             </CardHeader>
             
-            <CardContent className="pt-0 bg-slate-50">
-              <p className="text-xs mb-3 line-clamp-3 text-slate-950">
+            <CardContent className="pt-0">
+              <p className="text-sm mb-4 line-clamp-3 text-muted-foreground leading-relaxed">
                 {getPreview(note)}
               </p>
               
@@ -102,17 +102,17 @@ export function NoteGrid({
                   {formatDate(note.updated_at)}
                 </span>
                 
-                {note.is_archived && <Badge variant="secondary" className="text-xs">
+                {note.is_archived && <Badge variant="secondary" className="text-xs bg-purple-50 text-purple-600 rounded-full">
                     <Archive className="h-3 w-3 mr-1" />
                     Archived
                   </Badge>}
               </div>
               
-              {note.tag_ids.length > 0 && <div className="flex flex-wrap gap-1 mt-2">
-                  {note.tag_ids.slice(0, 3).map(tagId => <Badge key={tagId} variant="outline" className="text-xs">
+              {note.tag_ids.length > 0 && <div className="flex flex-wrap gap-2 mt-3">
+                  {note.tag_ids.slice(0, 3).map(tagId => <Badge key={tagId} variant="outline" className="text-xs bg-blue-50 text-blue-600 border-blue-200 rounded-full">
                       Tag {tagId.slice(0, 8)}
                     </Badge>)}
-                  {note.tag_ids.length > 3 && <Badge variant="outline" className="text-xs">
+                  {note.tag_ids.length > 3 && <Badge variant="outline" className="text-xs bg-indigo-50 text-indigo-600 border-indigo-200 rounded-full">
                       +{note.tag_ids.length - 3}
                     </Badge>}
                 </div>}
