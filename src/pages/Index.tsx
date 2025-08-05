@@ -33,6 +33,7 @@ const Index = () => {
   const [isNewNote, setIsNewNote] = useState(false);
   const [notes, setNotes] = useState<Note[]>([]);
   const [filteredNotes, setFilteredNotes] = useState<Note[]>([]);
+  const [folders, setFolders] = useState<any[]>([]);
   const [showArchived, setShowArchived] = useState(false);
   const [noteSearchQuery, setNoteSearchQuery] = useState("");
   const [tagSearchQuery, setTagSearchQuery] = useState("");
@@ -44,10 +45,11 @@ const Index = () => {
     toast
   } = useToast();
 
-  // Fetch notes
+  // Fetch notes and folders
   useEffect(() => {
     if (user) {
       fetchNotes();
+      fetchFolders();
     }
   }, [user]);
 
@@ -93,6 +95,28 @@ const Index = () => {
       });
     }
   };
+
+  const fetchFolders = async () => {
+    try {
+      console.log('Fetching folders for user:', user?.id);
+      const {
+        data,
+        error
+      } = await supabase.from('folders').select('*').eq('user_id', user?.id).order('created_at', {
+        ascending: false
+      });
+      if (error) throw error;
+      console.log('Fetched folders:', data);
+      setFolders(data || []);
+    } catch (error) {
+      console.error('Error fetching folders:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch folders",
+        variant: "destructive"
+      });
+    }
+  };
   const handleCreateNote = () => {
     setSelectedNote(null);
     setIsNewNote(true);
@@ -121,6 +145,9 @@ const Index = () => {
         title: "Success",
         description: "Folder created successfully"
       });
+      
+      // Refresh folders list after creation
+      fetchFolders();
     } catch (error) {
       console.error('Error creating folder:', error);
       toast({
@@ -393,7 +420,7 @@ const Index = () => {
               onSearchNotes={setNoteSearchQuery} 
               onSearchTags={setTagSearchQuery} 
               notes={filteredNotes} 
-              folders={[]} 
+              folders={folders} 
               onNoteSelect={handleNoteSelect} 
               onNotePin={handleNotePin} 
               onNoteArchive={handleNoteArchive} 
@@ -419,7 +446,7 @@ const Index = () => {
               onSearchNotes={setNoteSearchQuery} 
               onSearchTags={setTagSearchQuery} 
               notes={filteredNotes} 
-              folders={[]} 
+              folders={folders} 
               onNoteSelect={handleNoteSelect} 
               onNotePin={handleNotePin} 
               onNoteArchive={handleNoteArchive} 
