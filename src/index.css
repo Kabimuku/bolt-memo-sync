@@ -8,42 +8,42 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Modern Bolt-Memo color system with gradients */
-    --background: 220 40% 98%; /* Soft off-white with blue tint */
-    --foreground: 215 25% 15%; /* Deep navy blue for text */
+    /* Modern Clean UI - Light Mode */
+    --background: 0 0% 100%; /* Pure white background */
+    --foreground: 222 24% 17%; /* Dark gray text (#2D3748) */
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card-foreground: 222 24% 17%;
 
-    --popover: 220 40% 99%;
-    --popover-foreground: 215 25% 20%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 24% 17%;
 
-    --primary: 245 75% 65%; /* Vibrant purple-blue */
+    --primary: 243 75% 59%; /* Soft purple (#6B46C1) */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 25% 95%; /* Light blue-gray */
-    --secondary-foreground: 215 25% 25%;
+    --secondary: 210 40% 96%; /* Very light gray */
+    --secondary-foreground: 222 24% 17%;
 
-    --muted: 220 30% 96%; /* Very light blue-gray */
-    --muted-foreground: 215 15% 50%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 260 80% 92%; /* Light purple for hover effects */
-    --accent-foreground: 215 25% 20%;
+    --accent: 210 40% 94%; /* Light hover background */
+    --accent-foreground: 222 24% 17%;
 
-    --destructive: 0 70% 60%; /* Modern red */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 145 70% 45%; /* Modern green */
+    --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
 
-    --warning: 35 90% 55%; /* Modern orange */
+    --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 220 20% 88%; /* Subtle blue-gray border */
-    --input: 220 30% 96%; /* Light input background */
-    --ring: 245 75% 65%;
+    --border: 214 32% 91%; /* Light border */
+    --input: 0 0% 98%; /* Note editing area - light beige (#F7F0E6) similar */
+    --ring: 243 75% 59%;
 
-    --radius: 0.75rem; /* Increased for modern rounded look */
+    --radius: 0.5rem; /* 8px rounded corners */
 
     /* Modern gradient system */
     --gradient-primary: linear-gradient(135deg, hsl(245, 75%, 65%) 0%, hsl(260, 80%, 75%) 100%);
@@ -84,52 +84,52 @@ All colors MUST be HSL.
     --red-100: 0 80% 92%;
     --red-500: 0 70% 60%;
 
-    /* Modern sidebar system */
-    --sidebar-background: 220 40% 99%;
-    --sidebar-foreground: 215 25% 20%;
-    --sidebar-primary: 245 75% 65%;
+    /* Sidebar system */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 24% 17%;
+    --sidebar-primary: 243 75% 59%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 260 80% 92%;
-    --sidebar-accent-foreground: 215 25% 20%;
-    --sidebar-border: 220 25% 90%;
-    --sidebar-ring: 245 75% 65%;
+    --sidebar-accent: 210 40% 94%;
+    --sidebar-accent-foreground: 222 24% 17%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 243 75% 59%;
   }
 
   .dark {
-    /* Modern dark mode colors */
-    --background: 215 30% 8%; /* Deep navy background */
-    --foreground: 220 15% 95%; /* Light text */
+    /* Modern Clean UI - Dark Mode */
+    --background: 222 47% 11%; /* Deep background (#1A1A2E) */
+    --foreground: 210 6% 83%; /* Light gray text (#D3D3D3) */
 
-    --card: 215 25% 12%;
-    --card-foreground: 220 15% 95%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 6% 83%;
 
-    --popover: 215 25% 12%;
-    --popover-foreground: 220 15% 95%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 6% 83%;
 
-    --primary: 245 80% 70%; /* Brighter purple in dark mode */
+    --primary: 243 75% 59%; /* Purple accent (#6B46C1) */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 215 25% 18%; /* Dark gray-blue */
-    --secondary-foreground: 220 15% 85%;
+    --secondary: 217 32% 17%; /* Dark gray */
+    --secondary-foreground: 210 6% 83%;
 
-    --muted: 215 25% 15%;
-    --muted-foreground: 220 10% 65%;
+    --muted: 217 32% 17%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 245 60% 25%; /* Dark purple accent */
-    --accent-foreground: 220 15% 90%;
+    --accent: 217 32% 20%; /* Hover background */
+    --accent-foreground: 210 6% 83%;
 
-    --destructive: 0 75% 65%; /* Bright red for dark mode */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 145 70% 50%;
+    --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
 
-    --warning: 35 90% 60%;
+    --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 215 25% 20%;
-    --input: 215 25% 15%;
-    --ring: 245 80% 70%;
+    --border: 217 32% 17%;
+    --input: 217 32% 15%; /* Note editing area */
+    --ring: 243 75% 59%;
 
     /* Dark mode gradients */
     --gradient-primary: linear-gradient(135deg, hsl(245, 80%, 70%) 0%, hsl(260, 75%, 75%) 100%);
@@ -155,15 +155,15 @@ All colors MUST be HSL.
     --red-100: 215 28% 17%;
     --red-500: 0 84% 60%;
 
-    /* Updated sidebar in dark mode */
-    --sidebar-background: 210 28% 15%;
-    --sidebar-foreground: 210 20% 98%;
-    --sidebar-primary: 245 58% 51%;
+    /* Sidebar in dark mode */
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 6% 83%;
+    --sidebar-primary: 243 75% 59%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 245 58% 20%;
-    --sidebar-accent-foreground: 210 20% 98%;
-    --sidebar-border: 215 28% 17%;
-    --sidebar-ring: 245 58% 51%;
+    --sidebar-accent: 217 32% 20%;
+    --sidebar-accent-foreground: 210 6% 83%;
+    --sidebar-border: 217 32% 17%;
+    --sidebar-ring: 243 75% 59%;
   }
 }
 
@@ -178,19 +178,36 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
-  /* Modern gradient backgrounds */
-  .bg-gradient-primary { background: var(--gradient-primary); }
-  .bg-gradient-secondary { background: var(--gradient-secondary); }
-  .bg-gradient-accent { background: var(--gradient-accent); }
-  .bg-gradient-surface { background: var(--gradient-surface); }
+  /* Mobile-first responsive design */
+  .mobile-sidebar {
+    @apply fixed inset-y-0 left-0 z-50 w-full transform transition-transform duration-300 ease-in-out;
+    @apply sm:relative sm:translate-x-0 sm:w-64;
+  }
+  
+  .mobile-sidebar-hidden {
+    @apply -translate-x-full sm:translate-x-0;
+  }
+
+  /* Modern card design with shadows */
+  .note-card {
+    @apply bg-card border border-border rounded-lg p-4 transition-all duration-200;
+    @apply hover:shadow-md hover:shadow-primary/10 hover:-translate-y-0.5;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .note-card-mobile {
+    @apply bg-card border border-border rounded-lg p-3 transition-all duration-200;
+    @apply active:scale-[0.98] sm:hover:shadow-md sm:hover:shadow-primary/10;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
 
   /* Glass morphism effects */
   .glass {
-    @apply backdrop-blur-sm bg-white/70 dark:bg-gray-900/70 border border-white/20 dark:border-gray-800/20;
+    @apply backdrop-blur-sm bg-background/70 border border-border/20;
   }
 
   .glass-card {
-    @apply backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-white/30 dark:border-gray-800/30 rounded-xl shadow-lg;
+    @apply backdrop-blur-md bg-background/80 border border-border/30 rounded-lg shadow-lg;
   }
 
   /* Custom utilities for Bolt-Memo */
@@ -246,12 +263,29 @@ All colors MUST be HSL.
   
   /* Modern interaction effects */
   .hover-lift {
-    @apply transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg;
+    @apply transition-all duration-200 hover:transform hover:-translate-y-0.5 hover:shadow-md;
   }
 
   .hover-glow {
-    @apply transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25;
+    @apply transition-all duration-200 hover:shadow-md hover:shadow-primary/25;
   }
+
+  /* Mobile-specific utilities */
+  .mobile-header {
+    @apply sticky top-0 z-40 backdrop-blur-md bg-background/80 border-b border-border/50;
+  }
+
+  .mobile-fab {
+    @apply fixed bottom-4 right-4 z-40 w-14 h-14 rounded-full shadow-lg;
+    @apply bg-primary text-primary-foreground hover:shadow-xl hover:scale-105;
+    @apply transition-all duration-200 active:scale-95;
+  }
+
+  /* Typography improvements */
+  .heading-1 { @apply text-2xl font-bold tracking-tight; }
+  .heading-2 { @apply text-xl font-semibold tracking-tight; }
+  .body-text { @apply text-base leading-relaxed; }
+  .caption-text { @apply text-sm text-muted-foreground; }
 
   /* Enhanced drag and drop utilities */
   .drag-over {

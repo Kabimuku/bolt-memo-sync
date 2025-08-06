@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 interface Note {
   id: string;
   title: string;
@@ -28,6 +30,7 @@ export function NoteGrid({
   onNoteArchive,
   onNoteDelete
 }: NoteGridProps) {
+  const isMobile = useIsMobile();
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -51,8 +54,13 @@ export function NoteGrid({
         </div>
       </div>;
   }
-  return <div className="p-6 bg-gradient-surface min-h-screen">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+  return <div className={cn("min-h-screen bg-background", isMobile ? "p-4" : "p-6")}>
+      <div className={cn(
+        "grid gap-4",
+        isMobile 
+          ? "grid-cols-1 sm:grid-cols-2" 
+          : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      )}>
         {notes.map(note => <Card key={note.id} className="cursor-pointer hover-lift hover-glow glass-card transition-all duration-300 relative group border-0" onClick={() => onNoteSelect(note)}>
             <CardHeader className="pb-3">
               <div className="flex items-start justify-between">
