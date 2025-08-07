@@ -33,10 +33,17 @@ export function MobileHeader({
         <Menu className="h-5 w-5" />
       </Button>
 
-      {/* App Title - Hidden on small screens when searching */}
-      <div className="flex-1 min-w-0">
+      {/* App Title with Logo */}
+      <div className="flex-1 min-w-0 flex items-center gap-2">
         <div className="hidden sm:block">
-          <h1 className="heading-2 truncate">{title}</h1>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-primary rounded transform rotate-45"></div>
+            <h1 className="heading-2 truncate text-primary font-bold">{title}</h1>
+          </div>
+        </div>
+        <div className="sm:hidden flex items-center gap-2">
+          <div className="w-5 h-5 bg-primary rounded transform rotate-45"></div>
+          <span className="text-primary font-bold text-lg">{title}</span>
         </div>
         
         {/* Mobile Search - Full width on small screens */}

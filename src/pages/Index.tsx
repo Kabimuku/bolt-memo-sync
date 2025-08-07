@@ -454,7 +454,7 @@ const Index = () => {
               {currentView !== 'editor' && !isNewNote && (
                 <Button
                   onClick={handleCreateNote}
-                  className="mobile-fab"
+                  className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-2xl shadow-xl bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 hover:scale-105 active:scale-95"
                 >
                   <Plus className="h-6 w-6" />
                 </Button>

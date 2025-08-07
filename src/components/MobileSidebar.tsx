@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Home, Archive, Settings, User, LogOut, Download, Upload, Moon, Sun, File, Folder, Plus } from 'lucide-react';
+import { X, Home, Archive, Settings, User, LogOut, Download, Upload, Moon, Sun, File, Folder, Plus, Lightbulb, Trash2 } from 'lucide-react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -58,9 +58,12 @@ export function MobileSidebar({
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent side="left" className="w-full sm:w-80 p-0">
-        <SheetHeader className="p-6 border-b border-border">
+        <SheetHeader className="p-6 border-b border-border bg-background">
           <div className="flex items-center justify-between">
-            <SheetTitle className="heading-2">Bolt-Memo</SheetTitle>
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 bg-primary rounded transform rotate-45"></div>
+              <SheetTitle className="heading-2 text-primary font-bold">Bolt Memo</SheetTitle>
+            </div>
             <Button variant="ghost" size="sm" onClick={onClose} className="p-2 hover:bg-accent rounded-lg">
               <X className="h-5 w-5" />
             </Button>
@@ -80,16 +83,18 @@ export function MobileSidebar({
           </div>
 
           {/* Navigation */}
-          <div className="px-6 space-y-2">
+          <div className="px-6 space-y-3">
             <Button
               variant="ghost"
               onClick={() => handleViewChange('notes')}
               className={cn(
-                "w-full justify-start rounded-lg h-12 text-base",
-                currentView === 'notes' && "bg-accent text-accent-foreground font-medium"
+                "w-full justify-start rounded-xl h-12 text-base transition-all duration-200",
+                currentView === 'notes' 
+                  ? "bg-accent text-accent-foreground font-medium shadow-sm" 
+                  : "hover:bg-muted hover:shadow-sm"
               )}
             >
-              <Home className="mr-3 h-5 w-5" />
+              <Lightbulb className="mr-3 h-5 w-5" />
               All Notes
             </Button>
 
@@ -97,12 +102,28 @@ export function MobileSidebar({
               variant="ghost"
               onClick={() => handleViewChange('archived')}
               className={cn(
-                "w-full justify-start rounded-lg h-12 text-base",
-                currentView === 'archived' && "bg-accent text-accent-foreground font-medium"
+                "w-full justify-start rounded-xl h-12 text-base transition-all duration-200",
+                currentView === 'archived' 
+                  ? "bg-accent text-accent-foreground font-medium shadow-sm" 
+                  : "hover:bg-muted hover:shadow-sm"
               )}
             >
               <Archive className="mr-3 h-5 w-5" />
-              Archived
+              Archive
+            </Button>
+
+            <Button
+              variant="ghost"
+              onClick={() => handleViewChange('deleted')}
+              className={cn(
+                "w-full justify-start rounded-xl h-12 text-base transition-all duration-200",
+                currentView === 'deleted' 
+                  ? "bg-accent text-accent-foreground font-medium shadow-sm" 
+                  : "hover:bg-muted hover:shadow-sm"
+              )}
+            >
+              <Trash2 className="mr-3 h-5 w-5" />
+              Deleted
             </Button>
           </div>
 

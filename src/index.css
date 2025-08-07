@@ -9,7 +9,7 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Modern Clean UI - Light Mode */
-    --background: 0 0% 100%; /* Pure white background */
+    --background: 220 40% 98%; /* Soft light gray background */
     --foreground: 222 24% 17%; /* Dark gray text (#2D3748) */
 
     --card: 0 0% 100%;
@@ -18,7 +18,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222 24% 17%;
 
-    --primary: 243 75% 59%; /* Soft purple (#6B46C1) */
+    --primary: 217 91% 60%; /* Vibrant blue primary */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96%; /* Very light gray */
@@ -27,8 +27,8 @@ All colors MUST be HSL.
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 210 40% 94%; /* Light hover background */
-    --accent-foreground: 222 24% 17%;
+    --accent: 217 91% 60%; /* Blue accent */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -40,8 +40,8 @@ All colors MUST be HSL.
     --warning-foreground: 0 0% 100%;
 
     --border: 214 32% 91%; /* Light border */
-    --input: 0 0% 98%; /* Note editing area - light beige (#F7F0E6) similar */
-    --ring: 243 75% 59%;
+    --input: 210 40% 98%; /* Soft gray input background */
+    --ring: 217 91% 60%;
 
     --radius: 0.5rem; /* 8px rounded corners */
 
@@ -96,27 +96,27 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Modern Clean UI - Dark Mode */
-    --background: 222 47% 11%; /* Deep background (#1A1A2E) */
-    --foreground: 210 6% 83%; /* Light gray text (#D3D3D3) */
+    /* Modern Clean UI - Dark Mode - Pure Black Theme */
+    --background: 0 0% 0%; /* Pure black background */
+    --foreground: 0 0% 95%; /* Near white text */
 
-    --card: 222 47% 11%;
-    --card-foreground: 210 6% 83%;
+    --card: 0 0% 4%; /* Very dark gray cards */
+    --card-foreground: 0 0% 95%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 6% 83%;
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 243 75% 59%; /* Purple accent (#6B46C1) */
+    --primary: 217 91% 60%; /* Vibrant blue accent */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 32% 17%; /* Dark gray */
-    --secondary-foreground: 210 6% 83%;
+    --secondary: 0 0% 10%; /* Dark gray */
+    --secondary-foreground: 0 0% 90%;
 
-    --muted: 217 32% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 8%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 217 32% 20%; /* Hover background */
-    --accent-foreground: 210 6% 83%;
+    --accent: 217 91% 60%; /* Blue accent for highlights */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -127,9 +127,9 @@ All colors MUST be HSL.
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 217 32% 17%;
-    --input: 217 32% 15%; /* Note editing area */
-    --ring: 243 75% 59%;
+    --border: 0 0% 15%; /* Subtle gray borders */
+    --input: 0 0% 8%; /* Dark input backgrounds */
+    --ring: 217 91% 60%;
 
     /* Dark mode gradients */
     --gradient-primary: linear-gradient(135deg, hsl(245, 80%, 70%) 0%, hsl(260, 75%, 75%) 100%);
@@ -156,14 +156,14 @@ All colors MUST be HSL.
     --red-500: 0 84% 60%;
 
     /* Sidebar in dark mode */
-    --sidebar-background: 222 47% 11%;
-    --sidebar-foreground: 210 6% 83%;
-    --sidebar-primary: 243 75% 59%;
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 217 32% 20%;
-    --sidebar-accent-foreground: 210 6% 83%;
-    --sidebar-border: 217 32% 17%;
-    --sidebar-ring: 243 75% 59%;
+    --sidebar-accent: 217 91% 60%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 217 91% 60%;
   }
 }
 
